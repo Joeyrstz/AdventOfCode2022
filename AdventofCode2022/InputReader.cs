@@ -51,4 +51,15 @@ public static class InputReader
 
         return resultList;
     }
+
+    public static IEnumerable<Tuple<string, string>> ReadInputAsTuples(string fileName)
+    {
+        var path = Path.Combine("InputFiles", fileName);
+        var input = File.ReadAllLines(path);
+        foreach (var row in input)
+        {
+            var boxes = row.Split(' ');
+            yield return new Tuple<string, string>(boxes[0], boxes[1]);
+        }
+    }
 }
