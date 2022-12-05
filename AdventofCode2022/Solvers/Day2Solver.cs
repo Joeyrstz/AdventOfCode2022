@@ -14,7 +14,7 @@ public class Day2Solver
     [Fact]
     public void FirstTask()
     {
-        var coordinates = InputReader.ReadInputAsTuples("Day2.txt");
+        var coordinates = InputReader.ReadInputAsTuples("Day2.txt", " ");
         var points = 0;
         foreach (var tuple in coordinates)
         {
@@ -27,7 +27,7 @@ public class Day2Solver
     [Fact]
     public void SecondTask()
     {
-        var coordinates = InputReader.ReadInputAsTuples("Day2.txt");
+        var coordinates = InputReader.ReadInputAsTuples("Day2.txt", " ");
         var points = 0;
         
         //ToDo
