@@ -51,7 +51,67 @@ public class Day9Solver
         }
         _testOutputHelper.WriteLine(hashSet.Count + "");
         
-        Assert.True(false);
+        Assert.Equal(6354, hashSet.Count);
+    }
+
+    [Fact]
+    public void SecondTask()
+    {
+        var lines = InputReader.ReadInput("Day9.txt");
+        List<Tuple<char, int>> actions = new();
+        foreach (var l in lines)
+        {
+            var values = l.Split(' ');
+            actions.Add(new Tuple<char, int>(char.Parse(values[0]), int.Parse(values[1])));
+        }
+
+        var head = new RopeEnd()
+        {
+            ActualPosition = new Coordinate(0, 0),
+            PreviousPosition = new Coordinate(0, 0)
+        };
+        var tails = new List<RopeEnd>();
+        for (int i = 0; i < 9; i++)
+        {
+            tails.Add(new RopeEnd()
+            {
+                ActualPosition = new Coordinate(0, 0),
+                PreviousPosition = new Coordinate(0, 0)
+            });
+        }
+        
+        
+        var hashSet = new List<Coordinate> { new(0, 0) };
+        foreach (var (direction, amount) in actions)
+        {
+            for (int i = 0; i < amount; i++)
+            {
+                head.Move(direction);
+                if (!IsInRange(head.ActualPosition, tails[0].ActualPosition))
+                {
+                    //tails[0].PreviousPosition = new Coordinate(tails[0].ActualPosition.X, tails[0].ActualPosition.Y);
+                    tails[0].UpdateActualPosition(head.PreviousPosition);
+                }
+                for (int j = 1; j < tails.Count; j++)
+                {
+                    var currentTail = tails[j];
+                    var previousTail = tails[j - 1];
+                    if (!IsInRange(previousTail.ActualPosition, currentTail.ActualPosition))
+                    {
+                        //tails[j].PreviousPosition = new Coordinate(tails[j].ActualPosition.X, tails[j].ActualPosition.Y);
+                        tails[j].UpdateActualPosition(previousTail.PreviousPosition);
+                    }
+
+                    if (j == tails.Count - 1 && !hashSet.Contains(currentTail.ActualPosition))
+                    {
+                        hashSet.Add(new Coordinate(currentTail.ActualPosition.X, currentTail.ActualPosition.Y));
+                    }
+                }
+            }
+        }
+        _testOutputHelper.WriteLine(hashSet.Count + "");
+        
+        Assert.Equal(6354, hashSet.Count);
     }
 
     [Fact]
