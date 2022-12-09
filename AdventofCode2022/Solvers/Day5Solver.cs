@@ -19,10 +19,59 @@ public class Day5Solver
     {
         var task = ParseInput(InputReader.ReadInput("Day5.txt"));
 
-        foreach (var VARIABLE in task.Moves)
+        var stacks = task.Stacks.ToArray();
+        foreach (var (amount, from, to) in task.Moves)
         {
-            
+            var tempQueue = new Queue<char>();
+            for (int i = 0; i < amount; i++)
+            {
+
+                tempQueue.Enqueue(stacks[from-1].Pop());
+            }
+
+            while (tempQueue.TryDequeue(out char popped))
+            {
+                stacks[to-1].Push(popped);
+            }
         }
+
+        var value = "";
+        foreach (var currentStack in stacks)
+        {
+            value += currentStack.Peek();
+        }
+        _testOutputHelper.WriteLine(value);
+        Assert.Equal("VPCDMSLWJ", value);
+    }
+
+    [Fact]
+    public void SecondTask()
+    {
+        var task = ParseInput(InputReader.ReadInput("Day5.txt"));
+
+        var stacks = task.Stacks.ToArray();
+        foreach (var (amount, from, to) in task.Moves)
+        {
+            var tempStack = new Stack<char>();
+            for (int i = 0; i < amount; i++)
+            {
+
+                tempStack.Push(stacks[from-1].Pop());
+            }
+
+            while (tempStack.TryPop(out char popped))
+            {
+                stacks[to-1].Push(popped);
+            }
+        }
+
+        var value = "";
+        foreach (var currentStack in stacks)
+        {
+            value += currentStack.Peek();
+        }
+        _testOutputHelper.WriteLine(value);
+        Assert.Equal("TPWCGNCCG", value);
     }
 
     public Day5Task ParseInput(IEnumerable<string> lines)
