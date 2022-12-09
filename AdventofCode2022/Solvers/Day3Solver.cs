@@ -1,3 +1,4 @@
+using AdventofCode2022.Solvers.HelperClasses;
 using Xunit.Abstractions;
 
 namespace AdventofCode2022.Solvers;
@@ -41,7 +42,7 @@ public class Day3Solver
         var badgesPriority = 0;
         var lines = InputReader.ReadInput("Day3.txt");
         var splits = lines.Length / 3;
-        var elfTeams = SplitArray(lines, splits);
+        var elfTeams = ParsingUtil.SplitArray(lines, splits);
         foreach (var elfTeam in elfTeams)
         {
             var rucksacks = elfTeam.ToArray();
@@ -93,16 +94,5 @@ public class Day3Solver
 
         return x;
     }
-    private IEnumerable<IEnumerable<T>> SplitArray<T>(IEnumerable<T> arr, int splitsNumber)
-    {
-        var list = arr.ToList();
-        int size = list.Count / splitsNumber;
-        int pos = 0;
-        for (int i = 0; i + 1 < splitsNumber; ++i, pos += size)
-        {
-            yield return list.GetRange(pos, size);
-        }
-
-        yield return list.GetRange(pos, list.Count - pos);
-    }
+    
 }
