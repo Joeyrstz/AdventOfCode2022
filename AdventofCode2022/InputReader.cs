@@ -7,6 +7,12 @@ public static class InputReader
         var path = Path.Combine("InputFiles", fileName);
         return File.ReadAllLines(path);
     }
+
+    public static async Task<string> ReadInputAsWholeString(string fileName)
+    {
+        var path = Path.Combine("InputFiles", fileName);
+        return await File.ReadAllTextAsync(path);
+    }
     public static IEnumerable<string[]> ReadInputAsListOfStringArrays(string fileName)
     {
         var path = Path.Combine("InputFiles", fileName);
